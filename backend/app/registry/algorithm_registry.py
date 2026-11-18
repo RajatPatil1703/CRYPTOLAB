@@ -38,9 +38,12 @@ ALGORITHMS = [
         "slug": "playfair",
         "category": "classical",
         "unit": 1,
-        "description": "A digraph substitution cipher using a 5×5 key matrix.",
+        "description": (
+            "A digraph substitution cipher that encrypts pairs "
+            "of letters using a 5x5 key matrix."
+        ),
         "operations": ["encrypt", "decrypt"],
-        "available": False,
+        "available": True,
     },
     {
         "id": "hill",
@@ -48,9 +51,25 @@ ALGORITHMS = [
         "slug": "hill",
         "category": "classical",
         "unit": 1,
-        "description": "A polygraphic substitution cipher based on matrix operations modulo 26.",
+        "description": (
+            "A polygraphic substitution cipher using matrix "
+            "multiplication and modular arithmetic."
+        ),
         "operations": ["encrypt", "decrypt"],
-        "available": False,
+        "available": True,
+    },
+    {
+        "id": "transposition",
+        "name": "Transposition Cipher",
+        "slug": "transposition",
+        "category": "classical",
+        "unit": 1,
+        "description": (
+            "A block-based transposition cipher that rearranges "
+            "character positions using a permutation key."
+        ),
+        "operations": ["encrypt", "decrypt"],
+        "available": True,
     },
     {
         "id": "rc4",

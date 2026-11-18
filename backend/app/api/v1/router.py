@@ -1,6 +1,14 @@
 from fastapi import APIRouter
 
-from app.api.v1.endpoints import health, catalog, caesar, monoalphabetic
+from app.api.v1.endpoints import (
+    health,
+    catalog,
+    caesar,
+    monoalphabetic,
+    playfair,
+    hill,
+    transposition,
+)
 
 
 router = APIRouter()
@@ -24,4 +32,19 @@ router.include_router(
 router.include_router(
     monoalphabetic.router,
     tags=["Monoalphabetic Cipher"]
+)
+
+router.include_router(
+    playfair.router,
+    tags=["Playfair Cipher"]
+)
+
+router.include_router(
+    hill.router,
+    tags=["Hill Cipher"]
+)
+
+router.include_router(
+    transposition.router,
+    tags=["Transposition Cipher"]
 )
