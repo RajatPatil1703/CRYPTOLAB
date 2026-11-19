@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from app.algorithms.rc4 import rc4_cipher
+from app.algorithms.classical.rc4 import rc4_cipher
 from app.main import app
 
 client = TestClient(app)

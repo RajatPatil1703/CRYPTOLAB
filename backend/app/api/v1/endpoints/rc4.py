@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from app.algorithms.rc4 import rc4_cipher
+from app.algorithms.classical.rc4 import rc4_cipher
 from app.schemas.rc4 import RC4Request
 from app.schemas.response import SuccessResponse
 
