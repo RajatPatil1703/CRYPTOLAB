@@ -3,6 +3,8 @@ import AppLayout from './components/layout/AppLayout.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import ComingSoon from './pages/ComingSoon.jsx'
 import CaesarCipher from './pages/algorithms/CaesarCipher.jsx'
+import MatrixCipher from './pages/algorithms/MatrixCipher.jsx'
+import SequenceCipher from './pages/algorithms/SequenceCipher.jsx'
 import MonoalphabeticCipher from './pages/algorithms/MonoalphabeticCipher.jsx' // <-- Add this import
 
 export default function App() {
@@ -13,6 +15,10 @@ export default function App() {
         
         {/* Specific Algorithm Routes */}
         <Route path="algorithms/caesar" element={<CaesarCipher />} />
+        <Route path="algorithms/playfair" element={<MatrixCipher key="playfair" cipher="playfair" />} />
+        <Route path="algorithms/hill" element={<MatrixCipher key="hill" cipher="hill" />} />
+        <Route path="algorithms/transposition" element={<SequenceCipher key="transposition" cipher="transposition" />} />
+        <Route path="algorithms/rc4" element={<SequenceCipher key="rc4" cipher="rc4" />} />
         <Route path="algorithms/monoalphabetic" element={<MonoalphabeticCipher />} /> {/* <-- Add this route */}
         
         {/* Generic fallback for algorithms not yet implemented */}

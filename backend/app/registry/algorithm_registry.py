@@ -79,7 +79,7 @@ ALGORITHMS = [
         "unit": 1,
         "description": "An obsolete stream cipher retained here for educational study.",
         "operations": ["encrypt", "decrypt"],
-        "available": False,
+        "available": True,
     },
     {
         "id": "aes",

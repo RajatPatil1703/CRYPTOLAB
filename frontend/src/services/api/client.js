@@ -18,7 +18,7 @@ export function toApiError(err) {
   }
   const { status, data } = err.response
   const detail = data?.detail
-  let message = typeof detail === 'string' ? detail : data?.message
+  let message = typeof detail === 'string' ? detail : data?.error?.message || detail?.message || data?.message
   let fields = []
   if (Array.isArray(detail)) {
     // FastAPI/Pydantic validation errors: [{ loc: [...], msg: '...' }]

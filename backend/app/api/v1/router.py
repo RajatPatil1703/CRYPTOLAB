@@ -8,10 +8,12 @@ from app.api.v1.endpoints import (
     playfair,
     hill,
     transposition,
+    rc4,
 )
 
 
 router = APIRouter()
+router.include_router(rc4.router, tags=["RC4"])
 
 router.include_router(
     health.router,
