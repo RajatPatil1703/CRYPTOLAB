@@ -1,5 +1,6 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import AlgorithmPage from '../../components/layout/AlgorithmPage'
+import TerminalEmpty from '../../components/visualizations/TerminalEmpty.jsx'
 import client from '../../services/api/client'
 
 const fieldClass = 'w-full p-2.5 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:ring-2 focus:ring-green-500 outline-none'
@@ -87,7 +88,7 @@ export default function SequenceCipher({ cipher }) {
       <div>
         <label htmlFor={`${cipher}-key`} className="block text-sm font-medium mb-1">{isRC4 ? 'Key (UTF-8 text)' : 'Permutation key'}</label>
         <input id={`${cipher}-key`} value={key} onChange={(e) => setKey(e.target.value)} required className={`${fieldClass} font-mono`} />
-        <p className="text-xs text-gray-500 mt-1">{isRC4 ? 'Use the exact same key for encryption and decryption (1–256 UTF-8 bytes).' : 'Separate positions with commas or spaces. For 3, 1, 4, 2, the block ABCD becomes CADB.'}</p>
+        <p className="text-xs text-gray-500 mt-1">{isRC4 ? 'Use the exact same key for encryption and decryption (1â€“256 UTF-8 bytes).' : 'Separate positions with commas or spaces. For 3, 1, 4, 2, the block ABCD becomes CADB.'}</p>
       </div>
       <div>
         <label htmlFor={`${cipher}-mode`} className="block text-sm font-medium mb-1">Mode</label>
@@ -96,7 +97,7 @@ export default function SequenceCipher({ cipher }) {
         </select>
       </div>
       <div className="flex gap-3 pt-4">
-        <button type="submit" className="flex-1 px-4 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50">{loading ? 'Processing...' : 'Execute / Compute'}</button>
+        <button type="submit" className="flex-1 px-4 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50">{loading ? 'Processing...' : '▶ Run cipher'}</button>
         <button type="button" onClick={reset} className="px-4 py-2.5 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Clear</button>
       </div>
     </fieldset>
@@ -104,7 +105,7 @@ export default function SequenceCipher({ cipher }) {
   </form>
 
   const output = <div aria-live="polite" aria-busy={loading} className="min-h-[300px] p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 space-y-5">
-    {!result ? <p className="text-gray-500">{loading ? 'Computing result...' : 'Execute the cipher to view its steps and output.'}</p> : <>
+    {!result ? <TerminalEmpty loading={loading} /> : <>
       <div className="p-3 bg-green-100/50 dark:bg-green-900/20 rounded-lg">
         <h3 className="font-semibold text-green-800 dark:text-green-400">{result.operation === 'encrypt' ? isRC4 ? 'Ciphertext (hexadecimal)' : 'Ciphertext' : 'Decrypted text'}</h3>
         <p className="font-mono text-lg break-all whitespace-pre-wrap mt-1">{result.output_text}</p>
@@ -119,7 +120,7 @@ export default function SequenceCipher({ cipher }) {
       <ol className="space-y-3 max-h-96 overflow-y-auto">
         {result.execution_steps.map((step) => <li key={step.step} className="p-3 border border-gray-200 dark:border-gray-700 rounded text-sm">
           {isRC4 ? <p className="font-mono">{step.step}. {step.input_hex} XOR {step.keystream_hex} = {step.output_hex}</p> : <>
-            <p className="font-mono font-semibold">{step.step}. {step.input_block} → {step.output_block}</p>
+            <p className="font-mono font-semibold">{step.step}. {step.input_block} â†’ {step.output_block}</p>
             {step.calculations.map((move) => <p key={move.output_position} className="mt-1">Output position {move.output_position} takes input position {move.input_position}: <span className="font-mono">{move.character}</span></p>)}
           </>}
         </li>)}
@@ -134,3 +135,4 @@ export default function SequenceCipher({ cipher }) {
     </div>}
     formulasContent={<div className="space-y-2 text-sm font-mono">{isRC4 ? <><p>C[i] = P[i] XOR Z[i]</p><p>P[i] = C[i] XOR Z[i]</p><p>Z = RC4 keystream generated from the key</p></> : <><p>C[i] = P[key[i] - 1]</p><p>Decrypt with the inverse permutation</p><p>Key contains positions 1 through n exactly once</p></>}</div>} />
 }
+

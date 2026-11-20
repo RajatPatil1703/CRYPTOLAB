@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import AlgorithmPage from '../../components/layout/AlgorithmPage';
 import OutputConsole from '../../components/visualizations/OutputConsole';
 import client from '../../services/api/client';
@@ -113,7 +113,7 @@ const CaesarCipher = () => {
             disabled={loading || !inputData.text}
             className="flex-1 px-4 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
-            {loading ? 'Processing...' : 'Execute / Compute'}
+            {loading ? 'Processing...' : '▶ Run cipher'}
           </button>
           <button 
             onClick={handleReset}

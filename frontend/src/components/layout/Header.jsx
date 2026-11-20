@@ -1,27 +1,24 @@
-import { Menu, Bell, Sun, Moon, ShieldCheck } from 'lucide-react'
+﻿import { Menu, Sun, Moon, Shield, BookOpen } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext.jsx'
+import { lessons } from './lessons.js'
 
-export default function Header({ onMenu }) {
+export default function Header({ onMenu, lesson, index }) {
   const { theme, toggle } = useTheme()
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-line bg-surface px-4 lg:px-6">
-      <button onClick={onMenu} aria-label="Open navigation" className="rounded-lg p-2 hover:bg-subtle lg:hidden">
-        <Menu className="size-5" />
-      </button>
-      <Link to="/" className="flex items-center gap-2.5">
-        <ShieldCheck className="size-8 text-brand" strokeWidth={1.8} />
-        <span className="text-xl font-extrabold tracking-tight">CryptoLab</span>
-      </Link>
-      <span className="hidden h-6 w-px bg-line md:block" />
-      <p className="hidden text-sm text-muted md:block">Cryptography &amp; Network Security Learning Platform</p>
-      <div className="ml-auto flex items-center gap-2">
-        <button onClick={toggle} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} className="rounded-full border border-line p-2 hover:bg-subtle">
-          {theme === 'dark' ? <Sun className="size-5" /> : <Moon className="size-5" />}
-        </button>
-        <button aria-label="Notifications" className="rounded-full p-2 hover:bg-subtle"><Bell className="size-5" /></button>
-        <button aria-label="Profile" className="grid size-9 place-items-center rounded-full bg-brand-soft text-sm font-bold text-brand-ink">S</button>
+    <header className="top-bar">
+      <Link to="/" className="brand-mark"><Shield size={23} /><span>CryptoLab<span className="brand-dot">.</span></span></Link>
+      <div className="breadcrumbs"><Link to="/">Cryptography</Link><span>/</span><strong>{lesson?.name || 'Explorer'}</strong></div>
+      <div className="course-position" aria-label={lesson ? `Lesson ${index + 1} of ${lessons.length}` : 'Six interactive lessons'}>
+        <div className="progress-track"><span style={{ width: lesson ? `${((index + 1) / lessons.length) * 100}%` : '0%' }} /></div>
+        <span>{lesson ? `${index + 1} / ${lessons.length}` : 'LET’S LEARN'}</span>
+      </div>
+      <div className="top-actions">
+        <span className="learning-status"><i /> Learning mode</span>
+        <button className="icon-button" onClick={toggle} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} workspace`} title="Toggle workspace theme">{theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}</button>
+        <button className="pixel-button course-button" onClick={onMenu}><BookOpen size={16} /><span>Course contents</span><Menu size={16} /></button>
       </div>
     </header>
   )
 }
+

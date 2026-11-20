@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import AlgorithmPage from '../../components/layout/AlgorithmPage';
 import MonoalphabeticConsole from '../../components/visualizations/MonoalphabeticConsole';
 import client from '../../services/api/client';
@@ -53,7 +53,7 @@ const MonoalphabeticCipher = () => {
     <div className="space-y-4 text-sm text-gray-700 dark:text-gray-300">
       <p>The Monoalphabetic Substitution Cipher replaces each letter of the plaintext with a corresponding letter from a scrambled 26-letter cipher alphabet.</p>
       <ul className="list-disc pl-5 space-y-1">
-        <li><strong>Keyspace:</strong> There are 26! (approx. 4 × 10²⁶) possible keys.</li>
+        <li><strong>Keyspace:</strong> There are 26! (approx. 4 Ã— 10Â²â¶) possible keys.</li>
         <li><strong>Mapping:</strong> The mapping is strictly one-to-one. 'A' will always encrypt to the same cipher letter throughout the entire message.</li>
       </ul>
       <h3 className="font-semibold text-gray-900 dark:text-white mt-4">Security Analysis</h3>
@@ -67,7 +67,7 @@ const MonoalphabeticCipher = () => {
         E(x) = f(x)
       </div>
       <div className="px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded font-mono text-sm">
-        D(y) = f⁻¹(y)
+        D(y) = fâ»Â¹(y)
       </div>
       <div className="w-full text-xs text-gray-500 mt-2">
         Where <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">f</code> is the permutation function defined by the 26-letter key.
@@ -126,7 +126,7 @@ const MonoalphabeticCipher = () => {
             disabled={loading || !inputData.text || inputData.key.length !== 26}
             className="flex-1 px-4 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
-            {loading ? 'Processing...' : 'Execute / Compute'}
+            {loading ? 'Processing...' : '▶ Run cipher'}
           </button>
           <button 
             onClick={handleReset}

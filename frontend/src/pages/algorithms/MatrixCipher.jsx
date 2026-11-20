@@ -1,5 +1,6 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import AlgorithmPage from '../../components/layout/AlgorithmPage'
+import TerminalEmpty from '../../components/visualizations/TerminalEmpty.jsx'
 import client from '../../services/api/client'
 
 const EXAMPLE_MATRICES = {
@@ -102,8 +103,8 @@ export default function MatrixCipher({ cipher }) {
           <div className="space-y-3">
             <label htmlFor="hill-size" className="block text-sm font-medium">Key matrix size</label>
             <select id="hill-size" value={matrix.length} onChange={(e) => setMatrix(EXAMPLE_MATRICES[e.target.value])} className={fieldClass}>
-              <option value="2">2 × 2</option>
-              <option value="3">3 × 3</option>
+              <option value="2">2 Ã— 2</option>
+              <option value="3">3 Ã— 3</option>
             </select>
             <div className="grid gap-2 max-w-xs" style={{ gridTemplateColumns: `repeat(${matrix.length}, minmax(0, 1fr))` }}>
               {matrix.map((row, i) => row.map((value, j) => (
@@ -122,7 +123,7 @@ export default function MatrixCipher({ cipher }) {
           </select>
         </div>
         <div className="flex gap-3 pt-4">
-          <button type="submit" className="flex-1 px-4 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50">{loading ? 'Processing...' : 'Execute / Compute'}</button>
+          <button type="submit" className="flex-1 px-4 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50">{loading ? 'Processing...' : '▶ Run cipher'}</button>
           <button type="button" onClick={reset} className="px-4 py-2.5 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Clear</button>
         </div>
       </fieldset>
@@ -132,7 +133,7 @@ export default function MatrixCipher({ cipher }) {
 
   const output = (
     <div aria-live="polite" aria-busy={loading} className="min-h-[300px] p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 space-y-5">
-      {!result ? <p className="text-gray-500">{loading ? 'Computing result...' : 'Execute the cipher to view its matrix, steps, and output.'}</p> : <>
+      {!result ? <TerminalEmpty loading={loading} /> : <>
         <div className="p-3 bg-green-100/50 dark:bg-green-900/20 rounded-lg">
           <h3 className="font-semibold text-green-800 dark:text-green-400">{result.operation === 'encrypt' ? 'Ciphertext' : 'Decrypted text'}</h3>
           <p className="font-mono text-lg break-all mt-1">{result.output_text}</p>
@@ -148,9 +149,9 @@ export default function MatrixCipher({ cipher }) {
           <h3 className="font-semibold mb-2">Execution steps</h3>
           <ol className="space-y-3 max-h-96 overflow-y-auto">
             {result.execution_steps.map((step) => <li key={step.step} className="p-3 border border-gray-200 dark:border-gray-700 rounded text-sm">
-              <p className="font-mono font-semibold">{step.step}. {isPlayfair ? step.input_pair : step.input_block} → {isPlayfair ? step.output_pair : step.output_block}</p>
+              <p className="font-mono font-semibold">{step.step}. {isPlayfair ? step.input_pair : step.input_block} â†’ {isPlayfair ? step.output_pair : step.output_block}</p>
               {isPlayfair ? <p className="mt-1">{step.explanation}</p> : <>
-                <p className="font-mono mt-1">[{step.input_vector.join(', ')}] → [{step.output_vector.join(', ')}]</p>
+                <p className="font-mono mt-1">[{step.input_vector.join(', ')}] â†’ [{step.output_vector.join(', ')}]</p>
                 {step.calculations.map((calculation) => <p key={calculation.row} className="font-mono mt-1">Row {calculation.row}: ({calculation.multiplications.join(' + ')}) mod 26 = {calculation.modulo_result}</p>)}
               </>}
             </li>)}
@@ -162,10 +163,11 @@ export default function MatrixCipher({ cipher }) {
 
   return <AlgorithmPage title={title} category="Classical Cryptography" playgroundInputs={inputs} outputConsole={output}
     theoryContent={<div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-      <p>{isPlayfair ? 'Playfair encrypts pairs of letters using a 5 × 5 keyword matrix. Letters in the same row shift horizontally, letters in the same column shift vertically, and rectangle pairs exchange columns. Decryption reverses the shifts.' : 'Hill encrypts blocks of letters by multiplying their numeric column vectors by a key matrix modulo 26 (A = 0 through Z = 25). Decryption uses the modular inverse of the key matrix.'}</p>
+      <p>{isPlayfair ? 'Playfair encrypts pairs of letters using a 5 Ã— 5 keyword matrix. Letters in the same row shift horizontally, letters in the same column shift vertically, and rectangle pairs exchange columns. Decryption reverses the shifts.' : 'Hill encrypts blocks of letters by multiplying their numeric column vectors by a key matrix modulo 26 (A = 0 through Z = 25). Decryption uses the modular inverse of the key matrix.'}</p>
       <p>These historical ciphers are for learning and are unsuitable for protecting sensitive information.</p>
     </div>}
     formulasContent={<div className="space-y-2 text-sm font-mono">
-      {isPlayfair ? <><p>Same row: column ± 1 (mod 5)</p><p>Same column: row ± 1 (mod 5)</p><p>Rectangle: exchange columns</p></> : <><p>C = K × P mod 26</p><p>P = inverse(K) × C mod 26</p><p>gcd(det(K), 26) = 1</p></>}
+      {isPlayfair ? <><p>Same row: column Â± 1 (mod 5)</p><p>Same column: row Â± 1 (mod 5)</p><p>Rectangle: exchange columns</p></> : <><p>C = K Ã— P mod 26</p><p>P = inverse(K) Ã— C mod 26</p><p>gcd(det(K), 26) = 1</p></>}
     </div>} />
 }
+

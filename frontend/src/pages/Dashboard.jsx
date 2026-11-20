@@ -1,41 +1,38 @@
+﻿import { Link } from 'react-router-dom'
+import { ArrowRight, Terminal, Shield, Search, BookOpen, KeyRound } from 'lucide-react'
 import { useCatalog } from '../context/CatalogContext.jsx'
-import { LoadingState, ErrorState, EmptyState } from '../components/common/StateViews.jsx'
+import { lessons } from '../components/layout/lessons.js'
 import AlgorithmCard from '../components/dashboard/AlgorithmCard.jsx'
 
 export default function Dashboard() {
   const { status, error, units, visibleUnits, query, setQuery, reload } = useCatalog()
-
   return (
-    <div className="mx-auto max-w-6xl">
-      <h1 className="text-3xl font-extrabold tracking-tight">Algorithms</h1>
-      <p className="mt-1 max-w-2xl text-muted">Pick an algorithm to read its theory, run it with your own values, and step through every calculation.</p>
-
-      <div className="mt-8">
-        {status === 'loading' && <LoadingState label="Loading algorithms…" />}
-        {status === 'error' && <ErrorState error={error} onRetry={reload} />}
-        {status === 'ready' && units.length === 0 && (
-          <EmptyState title="No algorithms yet" hint="The backend returned an empty list." />
-        )}
-        {status === 'ready' && units.length > 0 && visibleUnits.length === 0 && (
-          <EmptyState
-            title={`No results for “${query}”`}
-            hint="Try a shorter name or clear the search."
-            action={<button onClick={() => setQuery('')} className="mt-4 rounded-lg border border-line px-4 py-2 text-sm font-semibold hover:bg-subtle">Clear search</button>}
-          />
-        )}
-        {status === 'ready' && visibleUnits.map((unit) => (
-          <section key={unit.key} className="mb-10">
-            <h2 className="mb-4 border-l-4 border-brand pl-3 text-lg font-bold">{unit.name}</h2>
-            {unit.algorithms.length === 0 ? (
-              <p className="text-sm text-muted">No algorithms in this unit yet.</p>
-            ) : (
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                {unit.algorithms.map((a) => <AlgorithmCard key={a.slug} algorithm={a} />)}
-              </div>
-            )}
-          </section>
-        ))}
+    <div className="course-home">
+      <div className="panel-bar"><span><BookOpen size={15} /> Course overview</span><span className="bar-meta">LEARN BY DOING</span></div>
+      <div className="course-home-scroll">
+        <section className="course-hero">
+          <div>
+            <p className="eyebrow"><span className="live-dot" /> YOUR NEXT DISCOVERY STARTS HERE</p>
+            <h1>Keep it secret.<br /><span>Crack the code.</span></h1>
+            <p className="hero-description">Go from curious to cryptographer. Explore the theory, experiment with real ciphers, and watch every calculation come to life.</p>
+            <Link className="pixel-button yellow-button hero-cta" to="/algorithms/caesar">Start learning <ArrowRight size={18} /></Link>
+            <div className="hero-facts"><span><BookOpen size={14} /> 6 interactive labs</span><span><Terminal size={14} /> Step-by-step results</span></div>
+          </div>
+          <div className="cipher-art" aria-label="Caesar cipher example: HELLO becomes KHOOR with shift 3">
+            <div className="art-window-bar"><i /><i /><i /><span>caesar.lab</span><Shield size={14} /></div>
+            <div className="art-content"><p>// A little shift. A new perspective.</p><span className="art-label">PLAINTEXT</span><div className="art-letters">{'HELLO'.split('').map((letter, i) => <span key={i}>{letter}</span>)}</div><div className="art-key"><span /> <KeyRound size={14} /> shift +3 <span /></div><span className="art-label">CIPHERTEXT</span><div className="art-letters encrypted">{'KHOOR'.split('').map((letter, i) => <span key={i}>{letter}</span>)}</div><div className="art-success"><span className="live-dot" /> Secret message unlocked.</div></div>
+          </div>
+        </section>
+        <div className="catalog-heading"><div><p className="eyebrow">ONE CONCEPT AT A TIME</p><h2>Your cryptography path<span>_</span></h2></div><label className="catalog-search"><Search size={16} /><input value={query} onChange={(event) => setQuery(event.target.value)} aria-label="Search course labs" placeholder="Find your next cipher…" /></label></div>
+        {status === 'loading' && <p role="status" className="catalog-status">Loading the course catalog…</p>}
+        {status === 'error' && <div className="catalog-status" role="status">The live catalog is unavailable. You can still open the six built-in labs below. <button onClick={reload}>Retry connection</button><details><summary>Connection details</summary>{error?.message || 'Could not connect to the catalog service.'}</details></div>}
+        {status !== 'ready' && <div className="course-grid">{lessons.filter((lesson) => `${lesson.name} ${lesson.description}`.toLowerCase().includes(query.toLowerCase())).map((lesson, index) => <AlgorithmCard key={lesson.slug} algorithm={{ ...lesson, available: true }} index={index} />)}</div>}
+        {status === 'ready' && units.length === 0 && <p className="catalog-status">No algorithms in the catalog yet.</p>}
+        {status === 'ready' && units.length > 0 && visibleUnits.length === 0 && <div className="catalog-status">No labs match “{query}”. <button onClick={() => setQuery('')}>Clear search</button></div>}
+        {status === 'ready' && visibleUnits.map((unit) => <section className="catalog-unit" key={unit.key}><h3>{unit.name}</h3><div className="course-grid">{unit.algorithms.map((algorithm, index) => <AlgorithmCard key={algorithm.slug} algorithm={algorithm} index={index} />)}</div></section>)}
+        <p className="home-signoff"><Terminal size={15} /> Made for curious minds. Built for hands-on learning.</p>
       </div>
     </div>
   )
 }
+

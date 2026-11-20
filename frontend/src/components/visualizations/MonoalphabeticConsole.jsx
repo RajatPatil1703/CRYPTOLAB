@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TerminalEmpty from './TerminalEmpty.jsx';
 
 const MonoalphabeticConsole = ({ steps = [], outputText, status = 'idle', cipherKey = '', operation = 'encrypt' }) => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -19,9 +20,7 @@ const MonoalphabeticConsole = ({ steps = [], outputText, status = 'idle', cipher
 
   if (status === 'idle') {
     return (
-      <div className="h-full min-h-[300px] border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/50 flex items-center justify-center text-gray-400">
-        Execute an algorithm to view the console output.
-      </div>
+      <TerminalEmpty />
     );
   }
 
